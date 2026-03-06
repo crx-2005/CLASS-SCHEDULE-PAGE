@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Schedule — Academic Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:       #0F2854;
+      --paper:     #f5f0e8;
+      --cream:     #ece6d7;
+      --gold:      #58A0C8;
+      --gold-lt:   #4988C4;
+      --rust:      #b94e2d;
+      --teal:      #1d6b6b;
+      --teal-lt:   #d0eaea;
+      --shadow:    0 4px 24px rgba(14,14,18,.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2.5rem 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 18px,
+        rgba(196,147,63,.06) 18px,
+        rgba(196,147,63,.06) 19px
+      );
+      pointer-events: none;
+    }
+    header .badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      border: 1px solid var(--gold);
+      padding: .25rem .75rem;
+      border-radius: 2px;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+    header h1 span { color: var(--gold); }
+    header p {
+      margin-top: .6rem;
+      font-size: .95rem;
+      font-weight: 300;
+      color: #b8b4ac;
+      max-width: 520px;
+    }
+    nav {
+      margin-top: 1.8rem;
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 2px;
+      transition: background .2s, border-color .2s;
+    }
+    nav a:hover, nav a.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      display: grid;
+      gap: 3rem;
+    }
+
+    /* section labels */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.4rem;
+    }
+    .section-label .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1;
+      user-select: none;
+    }
+    .section-label .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .section-label .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+    }
+
+    /* card shell */
+    .card {
+      background: #fff;
+      border: 1px solid var(--cream);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 2rem 2.2rem;
+    }
+
+
+    .student-info-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      position: relative;
+    }
+
+    .info-blob {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .info-blob:nth-child(even) {
+      background: #fff;
+      border: 2px solid var(--cream);
+    }
+
+    .info-blob:nth-child(3) {
+      background: var(--teal-lt);
+    }
+    .info-blob:hover {
+      transform: scale(1.02);
+      z-index: 10;
+    }
+
+    .info-blob h3 {
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .info-blob h3::before {
+      content: '◆';
+      font-size: 0.5rem;
+    }
+
+    .info-blob .value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .info-blob .sub-value {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    /* Photo area */
+    .student-photo {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      background: linear-gradient(135deg, var(--ink) 0%, #1a3a6e 100%);
+      color: var(--paper);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    .photo-placeholder {
+      width: 120px;
+      height: 120px;
+      background: var(--paper);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border: 4px solid var(--gold);
+      flex-shrink: 0;
+    }
+
+    .photo-placeholder img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
+    }
+    .student-photo h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+    }
+    .student-photo .meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+    }
+
+    .scattered-note {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--gold);
+      padding: 0.8rem 1.2rem;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--rust);
+      right: -20px;
+      top: 20px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: #888;
+      padding: 1.6rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .78rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: .06em;
+    }
+    footer span { color: var(--gold); }
+    footer address {
+      font-style: normal;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card {
+      animation: fadeUp .5s ease both;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .scattered-note {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 1.8rem 1.4rem 1.4rem; }
+      main   { padding: 2rem 1rem 3rem; }
+      footer { padding: 1.2rem 1.4rem; flex-direction: column; align-items: flex-start; }
+      .student-info-container { grid-template-columns: 1fr; }
+      .student-photo { flex-direction: column; text-align: center; }
+      .scattered-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+
+<header>
+  <div class="badge">Academic Year 2025 – 2026</div>
+  <h1>Class <span>Schedule</span><br>& Grade Report</h1>
+  <p>Bachelor of Science in Information Technology  · First Semester </p>
+  <nav>
+ <a href="index.html">Student Informations</a>
+  <a href="schedule.html">Schedule</a>
+  <a href="grades.html">Grades</a>
+</nav>
+</header>
+
+<script>
+const links = document.querySelectorAll("nav a");
+const currentPage = window.location.pathname.split("/").pop();
+
+links.forEach(link => {
+  if(link.getAttribute("href") === currentPage){
+    link.classList.add("active");
+  }
+});
+</script>
+
+<main>
+
+
+  <section aria-labelledby="info-title">
+    <div class="section-label">
+      <h2 class="title" id="info-title">Profile Details</h2>
+      <span class="line"></span>
+    </div>
+    <div class="card">
+      <div class="student-info-container">
+        
+      
+        <div class="student-photo">
+          <div class="photo-placeholder">
+          <img src="crx.jpg " alt="Student Photo">
+        </div>
+          <div>
+            <h2>Cristy Jean Romano</h2>
+            <div class="meta">ID: 1234-56789 | Status: Irregular</div>
+          </div>
+          <div class="scattered-note">ACTIVE</div>
+        </div>
+
+  
+        <div class="info-blob">
+          <h3>Course</h3>
+          <div class="value">BS Information Technology</div>
+        </div>
+
+        <div class="info-blob">
+          <h3>Year Level</h3>
+          <div class="value">1st Year</div>
+          <div class="sub-value">Section BSIT1D</div>
+        </div>
+
+        <div class="info-blob">
+          <h3>Birth Date</h3>
+          <div class="value">December 00, 2005</div>
+          <div class="sub-value">Age: 20 years old</div>
+        </div>
+
+        <div class="info-blob">
+          <h3>Address</h3>
+          <div class="value">Suba Bas-bas, Lapu Lapu City, Cebu</div>
+          <div class="sub-value">Guirellero Street</div>
+        </div>
+
+        <div class="info-blob">
+          <h3>Enrollment</h3> 
+          <div class="value">2nd Semester 2025-2026</div>
+          <div class="sub-value">Units: 24 | Status: Enrolled</div>
+        </div>
+
+        <div class="info-blob">
+          <h3>-</h3>
+          <div class="value">Nicasio P. Amoin Jr., MIT</div>
+          <div class="sub-value">Department Dean, College of Computer Studies</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <address>
+    <span>Cordova Public College</span> · Gabi, Cordova, Cebu ·
+  </address>
+  <p>2nd SEMESTER &nbsp;|&nbsp; Section <span>BSIT-1D</span> &nbsp;|&nbsp; 1st Year Level</p>
+</footer>
+
+</body>
+</html>
